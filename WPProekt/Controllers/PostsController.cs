@@ -43,28 +43,25 @@ namespace WPProekt.Controllers
 
         // PUT: api/Posts/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPost(int id, Post post)
+        public IHttpActionResult PutPost(Post post)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != post.ID)
-            {
-                return BadRequest();
-            }
-
             var postToUpdate = db.Posts
-                .Where(p => p.ID == id)
+                .Where(p => p.ID == post.ID)
                 .Include(p => p.Comments)
                 .FirstOrDefault();
 
             if (postToUpdate != null) {
                 postToUpdate.Update(post);
+            } else {
+                return BadRequest();
             }
 
-            db.Entry(post).State = EntityState.Modified;
+            db.Entry(postToUpdate).State = EntityState.Modified;
 
             try
             {
@@ -72,7 +69,7 @@ namespace WPProekt.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PostExists(id))
+                if (!PostExists(post.ID))
                 {
                     return NotFound();
                 }

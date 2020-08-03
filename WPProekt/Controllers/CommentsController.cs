@@ -38,16 +38,11 @@ namespace WPProekt.Controllers
 
         // PUT: api/Comments/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutComment(int id, Comment comment)
+        public IHttpActionResult PutComment(Comment comment)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (id != comment.ID)
-            {
-                return BadRequest();
             }
 
             db.Entry(comment).State = EntityState.Modified;
@@ -58,7 +53,7 @@ namespace WPProekt.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CommentExists(id))
+                if (!CommentExists(comment.ID))
                 {
                     return NotFound();
                 }
