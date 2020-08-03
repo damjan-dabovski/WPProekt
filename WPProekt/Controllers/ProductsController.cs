@@ -7,12 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WPProekt.Data;
 using WPProekt.Models;
 
 namespace WPProekt.Controllers
 {
+    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
     public class ProductsController : ApiController
     {
         private BlogDbContext db = new BlogDbContext();
@@ -38,16 +40,11 @@ namespace WPProekt.Controllers
 
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutProduct(int id, Product product)
+        public IHttpActionResult PutProduct(Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (id != product.ID)
-            {
-                return BadRequest();
             }
 
             db.Entry(product).State = EntityState.Modified;
@@ -58,7 +55,7 @@ namespace WPProekt.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!ProductExists(product.ID))
                 {
                     return NotFound();
                 }

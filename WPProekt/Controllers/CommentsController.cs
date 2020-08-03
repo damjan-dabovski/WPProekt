@@ -7,12 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WPProekt.Data;
 using WPProekt.Models;
 
 namespace WPProekt.Controllers
 {
+    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
     public class CommentsController : ApiController
     {
         private BlogDbContext db = new BlogDbContext();

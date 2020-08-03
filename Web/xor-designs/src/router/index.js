@@ -4,6 +4,9 @@ import Home from '../views/Home.vue'
 import Posts from '../components/posts/Posts.vue'
 import PostDetails from '../components/posts/PostDetails.vue'
 import PostAddEdit from '../components/posts/PostAddEdit.vue'
+import Products from '../components/products/Products.vue'
+import ProductDetails from '../components/products/ProductDetails.vue'
+import ProductAddEdit from '../components/products/ProductAddEdit.vue'
 
 Vue.use(VueRouter)
 
@@ -41,6 +44,28 @@ Vue.use(VueRouter)
     path: '/posts/:id/edit',
     name: 'PostEdit',
     component: PostAddEdit,
+    props: { bEditEnabled: true }
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: Products
+  },
+  {
+    path: '/products/create',
+    name: 'ProductAdd',
+    component: ProductAddEdit,
+    props: { bEditEnabled: false }
+  },
+  {
+    path: '/products/:id',
+    name: 'ProductDetails',
+    component: ProductDetails
+  },
+  {
+    path: '/products/:id/edit',
+    name: 'ProductEdit',
+    component: ProductAddEdit,
     props: { bEditEnabled: true }
   }
 ]

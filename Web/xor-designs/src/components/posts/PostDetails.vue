@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="{ name: 'PostEdit', params: { id: post.ID }}" class="button is-success">Edit</router-link>
+        <router-link v-if="post" :to="{ name: 'PostEdit', params: { id: post.ID }}" class="button is-success">Edit</router-link>
         <b-button type="is-danger" @click="deletePost()">Delete</b-button>
         <h1>{{post.Title}}</h1>
         <p class="has-text-grey">by {{post.AuthorName}}</p>
