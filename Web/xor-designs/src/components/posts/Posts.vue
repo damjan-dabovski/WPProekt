@@ -1,28 +1,34 @@
 <template>
     <div>
         <router-link :to="{ name: 'PostAdd'}" class="button is-success">Add new</router-link>
-        <div v-for="(post, id) in posts" :key="id">
-            <h1>{{post.Title}}</h1>
-            <p class="has-text-grey">by {{post.AuthorName}}</p>
-            <p>{{post.Content}}</p>
-            <router-link :to="{ name: 'PostDetails', params: { id: post.ID }}">Read more</router-link>
-            <hr>
+        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
+        
+        <div v-if="posts.length > 0">
+            <post-preview v-for="post of posts" :key="post.ID"  :prop-post="post"></post-preview>
         </div>
     </div>
 </template>
 
 <script>
+import PostPreview from '../posts/PostPreview.vue'
 export default {
     name: 'Posts',
     data: () => {
         return {
-            posts: []
+            posts: [],
+            htmlEscapeRegex: /(<([^>]+)>)/gi,
+            isLoading: true
         }
+    },
+    components: {
+        'post-preview' : PostPreview
     },
     created: function () {
       fetch('http://localhost:60402/api/Posts')
       .then(response => response.json())
-      .then(data => this.posts = data)
+      .then((data) => {
+          this.isLoading = false
+          this.posts = data})
     }
 }
 </script>

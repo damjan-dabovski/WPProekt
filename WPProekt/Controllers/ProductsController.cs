@@ -25,6 +25,16 @@ namespace WPProekt.Controllers
             return db.Products;
         }
 
+        // GET: api/Products/hot
+        [HttpGet]
+        [Route("api/products/hot")]
+        public IQueryable<Product> HotProducts() {
+            var hotProducts = (from product in db.Products
+                               select product).OrderBy(x => Guid.NewGuid()).Take(3);
+
+            return hotProducts;
+        }
+
         // GET: api/Products/5
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)

@@ -25,6 +25,17 @@ namespace WPProekt.Controllers
             return db.Posts;
         }
 
+        // GET: api/Posts/newest
+        [HttpGet]
+        [Route("api/posts/newest")]
+        public IQueryable<Post> NewestPosts() {
+            var newestPosts = (from post in db.Posts
+                               orderby post.DateCreated descending
+                               select post).Take(3);
+
+            return newestPosts;
+        }
+
         // GET: api/Posts/5
         [ResponseType(typeof(Post))]
         public IHttpActionResult GetPost(int id)

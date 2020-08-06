@@ -23,8 +23,7 @@ var database = firebase.database()
 const store = new Vuex.Store({
     state: {
         database: database,
-        posts: null,
-        products: null,
+        uid: null,
         cartItems: []
     },
     actions: {},

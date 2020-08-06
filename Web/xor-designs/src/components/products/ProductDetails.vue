@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
         <router-link v-if="product" :to="{ name: 'ProductEdit', params: { id: product.ID }}" class="button is-success">Edit</router-link>
         <b-button type="is-danger" @click="deleteProduct()">Delete</b-button>
         <h1>{{product.Name}}</h1>
@@ -18,14 +19,17 @@ export default {
     name: 'ProductDetails',
     data: () => {
         return {
-            product: {}
+            product: {},
+            isLoading: true
         }
     },
     created: function () {
         let id = this.$route.params.id
         fetch(`http://localhost:60402/api/Products/${id}`)
         .then(response => response.json())
-        .then(data => this.product = data)
+        .then(data => {
+            this.isLoading = false
+            this.product = data})
     },
     methods: {
         deleteProduct () {

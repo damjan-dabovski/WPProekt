@@ -14,6 +14,17 @@
       <b-input v-model="post.AuthorName"></b-input>
     </b-field>
 
+    <div class="field">
+      <b-switch v-model="bPreviewEnabled"
+      type="is-info">
+          Preview: {{bPreviewEnabled ? 'ON' : 'OFF'}}
+      </b-switch>
+    </div>
+
+    <div v-if="bPreviewEnabled">
+      <div v-html="post.Content"></div>
+    </div>
+
     <b-button type="is-info" @click="submit()">Submit</b-button>
   </div>
 </template>
@@ -25,7 +36,8 @@ export default {
     props: ['bEditEnabled'],
     data: () => {
         return {
-            post: {}
+            post: {},
+            bPreviewEnabled: true
         }
     },
     created: function () {

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
+import Home from '../components/home/Home.vue'
+import PageNotFound from '../components/home/PageNotFound.vue'
 import Posts from '../components/posts/Posts.vue'
 import PostDetails from '../components/posts/PostDetails.vue'
 import PostAddEdit from '../components/posts/PostAddEdit.vue'
@@ -13,6 +15,11 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
+    name: 'Index',
+    component: Home
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },
@@ -67,6 +74,11 @@ Vue.use(VueRouter)
     name: 'ProductEdit',
     component: ProductAddEdit,
     props: { bEditEnabled: true }
+  },
+  {
+    path: '*',
+    name: 'PageNotFound',
+    component: PageNotFound
   }
 ]
 
