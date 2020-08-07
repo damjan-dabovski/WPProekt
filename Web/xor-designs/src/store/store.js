@@ -24,6 +24,7 @@ const store = new Vuex.Store({
     state: {
         database: database,
         uid: null,
+        userRole: 1,
         cartItems: []
     },
     actions: {},

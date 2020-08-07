@@ -9,6 +9,8 @@
         <div v-if="newestPosts.length > 0">
             <post-preview v-for="post of newestPosts" :key="post.ID"  :prop-post="post"></post-preview>
         </div>
+
+        <button @click="logUserRole()">Log user role</button>
     </div>
 </template>
 
@@ -29,13 +31,17 @@ export default {
       fetch('http://localhost:60402/api/Posts/newest')
       .then(response => response.json())
       .then((data) => {
-          console.log(data)
           this.newestPosts = data
         })
       
       fetch('http://localhost:60402/api/Products/hot')
       .then(response => response.json())
       .then((data) => this.hotProducts = data)
+    },
+    methods: {
+        logUserRole () {
+            console.log(this.$store.state.userRole)
+        }
     }
 }
 </script>

@@ -20,6 +20,7 @@
 <script>
 import * as firebase from 'firebase'
 import Login from './components/home/Login.vue'
+import AuthService from './services/AuthService.js'
 export default {
   name: 'App',
   components: {
@@ -37,10 +38,9 @@ export default {
   methods: {
     init () {
       let user = firebase.auth().currentUser
-      let store = this.$store
       if (user){
         this.user = user
-        store.state.uid = user.uid
+        AuthService.storeUserRole(fetch(`http://localhost:60402/api/users/${user.uid}`))
       }
     },
     loginClicked () {
@@ -51,6 +51,7 @@ export default {
     logout () {
       firebase.auth().signOut().then(() => {
         this.user = null
+        AuthService.resetUserRole()
       })
     },
     logUser(){

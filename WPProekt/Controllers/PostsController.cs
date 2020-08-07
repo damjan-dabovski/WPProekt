@@ -10,19 +10,23 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WPProekt.Data;
+using WPProekt.Filters;
 using WPProekt.Models;
+using static WPProekt.Models.User;
 
 namespace WPProekt.Controllers
 {
-    [EnableCors(origins: "http://localhost:8080", headers:"*", methods:"*")]
-    public class PostsController : ApiController
-    {
+    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+    public class PostsController : ApiController {
         private BlogDbContext db = new BlogDbContext();
 
         // GET: api/Posts
-        public IQueryable<Post> GetPosts()
-        {
-            return db.Posts;
+        public IQueryable<Post> GetPosts(bool getDrafts = false) {
+            if (getDrafts) {
+                return db.Posts;
+            } else {
+                return db.Posts.Where(post => !post.isDraft);
+            }
         }
 
         // GET: api/Posts/newest
@@ -37,6 +41,7 @@ namespace WPProekt.Controllers
         }
 
         // GET: api/Posts/5
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         [ResponseType(typeof(Post))]
         public IHttpActionResult GetPost(int id)
         {
