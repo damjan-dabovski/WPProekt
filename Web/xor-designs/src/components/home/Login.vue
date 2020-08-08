@@ -29,8 +29,8 @@ export default {
       login () {
         firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then((userResponse) => {
-          AuthService.storeUserRole(fetch(`http://localhost:60402/api/users/${userResponse.user.uid}`))
-
+          AuthService.storeUserRoleFromPromise(fetch(`http://localhost:60402/api/users/${userResponse.user.uid}`))
+          this.$store.commit('setUser', userResponse.user)
           this.$emit('login-clicked')
         })
         .catch(error => {

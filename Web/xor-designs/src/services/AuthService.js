@@ -25,18 +25,43 @@ function registerUser (email, password) {
     })
 }
 
-function storeUserRole (serverPromise) {
+function storeUserRoleFromPromise (serverPromise) {
     serverPromise.then(response => response.json())
     .then(data => store.commit('setRole', data.Role))
 }
 
-function resetUserRole () {
+function resetUserAndRole () {
     store.commit('setRole', 1)
+    store.commit('setUser', null)
+    this.setAxiosUidHeader()
+}
+
+function isLoggedIn () {
+  if(store.state.user){
+    return true
+  }
+  return false
+}
+
+function hasAdminRights () {
+  return store.state.userRole == 0
+}
+
+function setAxiosUidHeader () {
+  let user = store.state.user
+  if(user){
+    axios.defaults.headers.common['Uid'] = user.uid
+  } else {
+    axios.defaults.headers.common['Uid'] = null
+  }
 }
 
 export default{
     loginUser,
     registerUser,
-    storeUserRole,
-    resetUserRole
+    storeUserRoleFromPromise,
+    resetUserAndRole,
+    isLoggedIn,
+    hasAdminRights,
+    setAxiosUidHeader
 }

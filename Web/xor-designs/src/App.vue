@@ -40,18 +40,19 @@ export default {
       let user = firebase.auth().currentUser
       if (user){
         this.user = user
-        AuthService.storeUserRole(fetch(`http://localhost:60402/api/users/${user.uid}`))
+        this.$store.commit('setUser', user)
+        AuthService.storeUserRoleFromPromise(fetch(`http://localhost:60402/api/users/${user.uid}`))
+        AuthService.setAxiosUidHeader()
       }
     },
     loginClicked () {
-      this.user = firebase.auth().currentUser
       this.bLoginEnabled = false
       this.init()
     },
     logout () {
       firebase.auth().signOut().then(() => {
         this.user = null
-        AuthService.resetUserRole()
+        AuthService.resetUserAndRole()
       })
     },
     logUser(){

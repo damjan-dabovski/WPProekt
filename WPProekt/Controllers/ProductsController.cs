@@ -10,7 +10,9 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WPProekt.Data;
+using WPProekt.Filters;
 using WPProekt.Models;
+using static WPProekt.Models.User;
 
 namespace WPProekt.Controllers
 {
@@ -50,6 +52,7 @@ namespace WPProekt.Controllers
 
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin})]
         public IHttpActionResult PutProduct(Product product)
         {
             if (!ModelState.IsValid)
@@ -80,6 +83,7 @@ namespace WPProekt.Controllers
 
         // POST: api/Products
         [ResponseType(typeof(Product))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         public IHttpActionResult PostProduct(Product product)
         {
             if (!ModelState.IsValid)
@@ -95,6 +99,7 @@ namespace WPProekt.Controllers
 
         // DELETE: api/Products/5
         [ResponseType(typeof(Product))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         public IHttpActionResult DeleteProduct(int id)
         {
             Product product = db.Products.Find(id);

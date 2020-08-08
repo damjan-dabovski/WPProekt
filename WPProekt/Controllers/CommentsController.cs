@@ -10,7 +10,9 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WPProekt.Data;
+using WPProekt.Filters;
 using WPProekt.Models;
+using static WPProekt.Models.User;
 
 namespace WPProekt.Controllers
 {
@@ -40,6 +42,7 @@ namespace WPProekt.Controllers
 
         // PUT: api/Comments/5
         [ResponseType(typeof(void))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin, Roles.User })]
         public IHttpActionResult PutComment(Comment comment)
         {
             if (!ModelState.IsValid)
@@ -69,6 +72,7 @@ namespace WPProekt.Controllers
         }
 
         // POST: api/Comments
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin, Roles.User })]
         [ResponseType(typeof(Comment))]
         public IHttpActionResult PostComment(Comment comment)
         {
@@ -85,6 +89,7 @@ namespace WPProekt.Controllers
 
         // DELETE: api/Comments/5
         [ResponseType(typeof(Comment))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin, Roles.User })]
         public IHttpActionResult DeleteComment(int id)
         {
             Comment comment = db.Comments.Find(id);

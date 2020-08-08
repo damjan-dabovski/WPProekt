@@ -41,7 +41,6 @@ namespace WPProekt.Controllers
         }
 
         // GET: api/Posts/5
-        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         [ResponseType(typeof(Post))]
         public IHttpActionResult GetPost(int id)
         {
@@ -59,6 +58,7 @@ namespace WPProekt.Controllers
 
         // PUT: api/Posts/5
         [ResponseType(typeof(void))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         public IHttpActionResult PutPost(Post post)
         {
             if (!ModelState.IsValid)
@@ -100,6 +100,7 @@ namespace WPProekt.Controllers
 
         // POST: api/Posts
         [ResponseType(typeof(Post))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         public IHttpActionResult PostPost(Post post)
         {
             if (!ModelState.IsValid)
@@ -115,6 +116,7 @@ namespace WPProekt.Controllers
 
         // DELETE: api/Posts/5
         [ResponseType(typeof(Post))]
+        [RoleAuthorizationFilter(true, new Roles[] { Roles.Admin })]
         public IHttpActionResult DeletePost(int id)
         {
             Post post = db.Posts.Find(id);

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import PostsService from '../../services/PostsService'
 export default {
     name: 'PostAddEdit',
     props: ['bEditEnabled'],
@@ -49,18 +49,13 @@ export default {
       }
     },
     methods: {
-        submit() {
-            let axiosConfig = {
-                method: this.bEditEnabled ? 'PUT' : 'POST',
-                url: `http://localhost:60402/api/Posts${this.bEditEnabled ? '/' + this.post.ID : '' }`,
-                data: this.post
-            }
-
-            axios(axiosConfig).then(response => {
-                console.log(response)
-                this.$router.push({ name: 'Posts' })
-            })
+      submit() {
+        if(this.bEditEnabled){
+          PostsService.putPost(this.post)
+        } else {
+          PostsService.postPost(this.post)
         }
+      }
     }
 }
 </script>
