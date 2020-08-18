@@ -21,6 +21,8 @@ namespace WPProekt.Models {
 
         public List<Comment> Comments { get; set; }
 
+        public bool isDraft { get; set; }
+
         public Post() {
             DateModified = DateCreated = DateTime.UtcNow;
             Comments = new List<Comment>();
