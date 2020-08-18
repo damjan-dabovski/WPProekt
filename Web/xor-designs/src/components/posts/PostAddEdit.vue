@@ -7,12 +7,16 @@
     </b-field>
 
      <b-field label="Content">
-      <b-input v-model="post.Content"></b-input>
+      <b-input type="textarea" v-model="post.Content"></b-input>
     </b-field>
 
-     <b-field label="Author Name">
-      <b-input v-model="post.AuthorName"></b-input>
-    </b-field>
+    <div class="field">
+      <b-switch v-model="bIsDraft"
+      type="is-info">
+          Save this post as a draft?
+      </b-switch>
+      <p class="has-text-grey" v-if="bIsDraft" style="font-style: italic;">(Draft posts will not appear until saved)</p>
+    </div>
 
     <div class="field">
       <b-switch v-model="bPreviewEnabled"
@@ -22,7 +26,7 @@
     </div>
 
     <div v-if="bPreviewEnabled">
-      <div v-html="post.Content"></div>
+      <div v-html="getTitleHtml() + (post.Content || '')"></div>
     </div>
 
     <b-button type="is-info" @click="submit()">Submit</b-button>
@@ -37,7 +41,8 @@ export default {
     data: () => {
         return {
             post: {},
-            bPreviewEnabled: true
+            bPreviewEnabled: true,
+            bIsDraft: true
         }
     },
     created: function () {
@@ -45,20 +50,25 @@ export default {
         let id = this.$route.params.id
         fetch(`http://localhost:60402/api/Posts/${id}`)
         .then(response => response.json())
-        .then(data => this.post = data)
+        .then(data => {
+          this.post = data
+          this.bIsDraft = data.isDraft
+        })
       }
     },
     methods: {
       submit() {
+        this.post.isDraft = this.bIsDraft
+        this.post.AuthorName = this.$store.state.user?.email || 'Admin'
         if(this.bEditEnabled){
           PostsService.putPost(this.post)
         } else {
           PostsService.postPost(this.post)
         }
+      },
+      getTitleHtml() {
+        return `<h1>${this.post.Title || ''}</h1><br>`
       }
     }
 }
 </script>
-
-<style scoped>
-</style>

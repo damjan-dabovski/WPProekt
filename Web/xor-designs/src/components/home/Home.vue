@@ -1,11 +1,21 @@
 <template>
     <div>
-        <div v-for="(product, id) in hotProducts" :key="id">
+        <b-carousel animated="slide">
+        <b-carousel-item v-for="(item, id) in carouselItems" :key="id">
+            <section :class="`hero is-medium is-${item.color}`">
+                <div class="hero-body has-text-centered">
+                    <h1 class="title">{{item.product.Name}}</h1>
+                </div>
+            </section>
+        </b-carousel-item>
+        </b-carousel>
+
+        <!-- <div v-for="(product, id) in hotProducts" :key="id">
             <a class="has-text-info">{{product.Name}}</a>
             <p>{{product.Description}}</p>
             <h1 class="has-text-warning">${{product.Price}}</h1>
         </div>
-
+ -->
         <div v-if="newestPosts.length > 0">
             <post-preview v-for="post of newestPosts" :key="post.ID"  :prop-post="post"></post-preview>
         </div>
@@ -21,7 +31,8 @@ export default {
     data: () => {
         return {
             hotProducts: [],
-            newestPosts: []
+            newestPosts: [],
+            carouselItems: []
         }
     },
     components: {
@@ -36,7 +47,12 @@ export default {
       
       fetch('http://localhost:60402/api/Products/hot')
       .then(response => response.json())
-      .then((data) => this.hotProducts = data)
+      .then((data) => {
+          this.hotProducts = data
+          for(let product of this.hotProducts){
+              this.carouselItems.push({ product: product, color: 'warning' })
+          }
+        })
     },
     methods: {
         logUserRole () {

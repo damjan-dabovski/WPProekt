@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="{ name: 'PostAdd'}" class="button is-success">Add new</router-link>
+        <router-link v-if="hasAdminRights()" :to="{ name: 'PostAdd'}" class="button is-success">Add new</router-link>
         <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
         
         <div v-if="posts.length > 0">
@@ -11,6 +11,7 @@
 
 <script>
 import PostPreview from '../posts/PostPreview.vue'
+import AuthService from '../../services/AuthService'
 export default {
     name: 'Posts',
     data: () => {
@@ -24,11 +25,20 @@ export default {
         'post-preview' : PostPreview
     },
     created: function () {
-      fetch('http://localhost:60402/api/Posts')
+      let url = 'http://localhost:60402/api/Posts'
+      if(this.$route.query.getDrafts){
+        url += '?getDrafts=true'
+      }
+      fetch(url)
       .then(response => response.json())
       .then((data) => {
           this.isLoading = false
           this.posts = data})
+    },
+    methods: {
+        hasAdminRights() {
+            return AuthService.hasAdminRights();
+        }
     }
 }
 </script>

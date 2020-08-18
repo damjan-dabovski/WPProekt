@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login-container">
     <b-field :addons="false">
       <b-field expanded label="Email" :type="{ 'is-danger': hasError }" :message="{ 'Please provide a valid email address': hasError }">
         <b-input placeholder="Email" v-model="email" @keyup.native="enterClick($event)"></b-input>
@@ -50,3 +50,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.login-container{
+  width: 200px;
+  background:white;
+  padding: 0.5rem;
+  box-shadow: -2px 2px 5px 0px #00000069;
+}
+</style>

@@ -35,7 +35,9 @@ namespace WPProekt.Controllers
         public IQueryable<Post> NewestPosts() {
             var newestPosts = (from post in db.Posts
                                orderby post.DateCreated descending
-                               select post).Take(3);
+                               select post)
+                               .Where(post => !post.isDraft)
+                               .Take(3);
 
             return newestPosts;
         }
