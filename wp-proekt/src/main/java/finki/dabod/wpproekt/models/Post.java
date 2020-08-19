@@ -26,7 +26,8 @@ public class Post {
     private Date dateModified;
 
     @OneToMany(
-            mappedBy = "postId",
+            mappedBy = "post",
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -52,5 +53,14 @@ public class Post {
         this.title = newVersion.getTitle();
         this.content = newVersion.getContent();
         this.dateModified = new Date();
+    }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void removeComment(Comment comment){
+        this.comments.remove(comment);
     }
 }
