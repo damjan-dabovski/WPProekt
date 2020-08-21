@@ -2,23 +2,25 @@ package finki.dabod.wpproekt.controllers;
 
 import finki.dabod.wpproekt.models.Comment;
 import finki.dabod.wpproekt.models.Post;
+import finki.dabod.wpproekt.models.Tag;
 import finki.dabod.wpproekt.repositories.PostRepository;
+import finki.dabod.wpproekt.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
 public class PostController {
     private final PostRepository repository;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public PostController(PostRepository repository){
+    public PostController(PostRepository repository, TagRepository tagRepository){
         this.repository = repository;
+        this.tagRepository = tagRepository;
     }
 
     //BATCH INSERT - FOR TESTING ONLY
@@ -84,11 +86,26 @@ public class PostController {
         repository.save(newPost);
     }
 
-    // PUT: /posts/{id}
-    @PutMapping("/{id}")
+    // POST: /posts/5/tags
+    @PostMapping("/{id}/tags")
+    public void addTagToPost(@PathVariable int id, @RequestBody int tagId) {
+        Post targetPost = this.repository.findById(id);
+        Tag tagToAdd = tagRepository.findById(tagId);
+        if (targetPost != null) {
+            if (tagToAdd != null) {
+                targetPost.addTag(tagToAdd);
+                this.repository.save(targetPost);
+                tagToAdd.addPost(targetPost);
+                tagRepository.save(tagToAdd);
+            }
+        }
+    }
+
+    // PUT: /posts/
+    @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    public void putPost(@PathVariable int id, @RequestBody Post newPost){
-        Post postToUpdate = repository.findById(id);
+    public void putPost(@RequestBody Post newPost){
+        Post postToUpdate = repository.findById(newPost.getId());
         if(postToUpdate != null){
             postToUpdate.update(newPost);
             repository.save(postToUpdate);

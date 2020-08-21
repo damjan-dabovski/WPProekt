@@ -33,11 +33,11 @@ public class Post {
     )
     private List<Comment> comments;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Tag.class, cascade = CascadeType.ALL)
     @JoinTable(
             name = "post_tags",
-            joinColumns = @JoinColumn(name = "postsThatHaveThisTag"),
-            inverseJoinColumns = @JoinColumn(name = "tags")
+            joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     private List<Tag> tags;
 
@@ -60,7 +60,13 @@ public class Post {
         comment.setPost(this);
     }
 
-    public void removeComment(Comment comment){
-        this.comments.remove(comment);
+    public void addTag(Tag tag){
+        this.tags.add(tag);
+        tag.getPostsThatHaveThisTag().add(this);
+    }
+
+    public void removeTag(Tag tag){
+        tag.getPostsThatHaveThisTag().remove(this);
+        this.tags.remove(tag);
     }
 }
