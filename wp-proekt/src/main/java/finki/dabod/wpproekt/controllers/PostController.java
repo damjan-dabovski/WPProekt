@@ -1,5 +1,6 @@
 package finki.dabod.wpproekt.controllers;
 
+import finki.dabod.wpproekt.auth.RequireAdmin;
 import finki.dabod.wpproekt.models.Comment;
 import finki.dabod.wpproekt.models.Post;
 import finki.dabod.wpproekt.models.Tag;
@@ -80,6 +81,7 @@ public class PostController {
     }
 
     // POST: /posts
+    @RequireAdmin
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void postPost(@RequestBody Post newPost){
@@ -102,6 +104,7 @@ public class PostController {
     }
 
     // PUT: /posts/
+    @RequireAdmin
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public void putPost(@RequestBody Post newPost){
@@ -113,6 +116,7 @@ public class PostController {
     }
 
     // DELETE: /posts/{id}
+    @RequireAdmin
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deletePost(@PathVariable int id){

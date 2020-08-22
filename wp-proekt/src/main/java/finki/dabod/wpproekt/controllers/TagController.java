@@ -1,5 +1,6 @@
 package finki.dabod.wpproekt.controllers;
 
+import finki.dabod.wpproekt.auth.RequireAdmin;
 import finki.dabod.wpproekt.models.Tag;
 import finki.dabod.wpproekt.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,13 @@ public class TagController {
     }
 
     @PostMapping
+    @RequireAdmin
     public void postTag(@RequestBody Tag tag){
         repository.save(tag);
     }
 
     @DeleteMapping("/{id}")
+    @RequireAdmin
     public void deleteTag(@PathVariable int id){
         Tag tagToDelete = repository.findById(id);
         if(tagToDelete != null){

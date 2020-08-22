@@ -1,6 +1,7 @@
 package finki.dabod.wpproekt.controllers;
 
 
+import finki.dabod.wpproekt.auth.RequireAdmin;
 import finki.dabod.wpproekt.models.User;
 import finki.dabod.wpproekt.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,13 @@ public class UserController {
         this.repository = repository;
     }
 
+    @RequireAdmin
     @GetMapping
     public List<User> getAllUsers(){
         return repository.findAll();
     }
 
+    @RequireAdmin
     @GetMapping("/{uid}")
     public User getUser(@PathVariable String uid){
         return repository.findByUid(uid);
@@ -33,6 +36,7 @@ public class UserController {
         repository.save(user);
     }
 
+    @RequireAdmin
     @DeleteMapping("/{uid}")
     public void deleteUser(@PathVariable String uid){
         User userToDelete = repository.findByUid(uid);

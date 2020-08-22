@@ -1,5 +1,6 @@
 package finki.dabod.wpproekt.models;
 
+import finki.dabod.wpproekt.auth.AuthService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,10 +16,5 @@ public class User {
     private String userName;
 
     @Enumerated(EnumType.ORDINAL)
-    private Role role;
-
-    public enum Role{
-        ADMIN,
-        USER
-    }
+    private AuthService.Role role;
 }

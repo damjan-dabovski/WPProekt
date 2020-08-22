@@ -1,5 +1,6 @@
 package finki.dabod.wpproekt.controllers;
 
+import finki.dabod.wpproekt.auth.RequireAdmin;
 import finki.dabod.wpproekt.models.Product;
 import finki.dabod.wpproekt.repositories.ProductRepository;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,7 @@ public class ProductController {
     }
 
     // POST: /products
+    @RequireAdmin
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void postProduct(@RequestBody Product newProduct){
@@ -50,6 +52,7 @@ public class ProductController {
     }
 
     // PUT: /products
+    @RequireAdmin
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public void putProduct(@RequestBody Product newProduct){
@@ -63,6 +66,7 @@ public class ProductController {
     }
 
     // DELETE: /products/5
+    @RequireAdmin
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteProduct(@PathVariable int id){

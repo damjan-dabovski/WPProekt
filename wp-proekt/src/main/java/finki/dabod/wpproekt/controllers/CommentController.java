@@ -1,5 +1,6 @@
 package finki.dabod.wpproekt.controllers;
 
+import finki.dabod.wpproekt.auth.RequireLogin;
 import finki.dabod.wpproekt.models.Comment;
 import finki.dabod.wpproekt.models.Post;
 import finki.dabod.wpproekt.repositories.CommentRepository;
@@ -32,6 +33,7 @@ public class CommentController {
         return this.repository.findAllByPostId(postId);
     }
 
+    @RequireLogin
     @PostMapping("/{postId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void postComment(@RequestBody Comment comment, @PathVariable int postId){
@@ -42,6 +44,7 @@ public class CommentController {
         }
     }
 
+    @RequireLogin
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public void putComment(@RequestBody Comment newComment){
@@ -52,6 +55,7 @@ public class CommentController {
         }
     }
 
+    @RequireLogin
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteComment(@PathVariable int id){
