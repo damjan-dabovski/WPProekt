@@ -3,6 +3,7 @@ package finki.dabod.wpproekt.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -20,6 +21,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+        if(CorsUtils.isPreFlightRequest(request)){
+            return true;
+        }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
         RequireAdmin isAdminRequired = handlerMethod.getMethod().getAnnotation(RequireAdmin.class);

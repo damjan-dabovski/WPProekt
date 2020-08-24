@@ -1,0 +1,9 @@
+<div *ngIf = "post">
+    <h1>{{post.title}}</h1>
+    <p style="color:#888888">by {{post.authorName}} on {{post.dateModified}}</p>
+    <div [innerHtml]="post.content"></div>
+    <a [routerLink]="['/posts', post.id, 'edit']">Edit</a>
+    <button (click)="deletePost()">Delete</button>
+</div>
+
+<a routerLink="/posts">Back to Posts</a>
