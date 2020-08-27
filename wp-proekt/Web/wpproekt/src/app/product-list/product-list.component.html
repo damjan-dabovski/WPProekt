@@ -1,0 +1,6 @@
+<a style="background-color: rgb(160, 192, 112); color: white; padding: 3px" routerLink="/products/create">Add new</a>
+<div *ngFor = "let product of products">
+    <h1><a [routerLink]="['/products', product.id]">{{product.name}}</a></h1>
+    <p>{{product.description}}</p>
+    <p style="color:limegreen">{{product.price}}</p>
+</div>

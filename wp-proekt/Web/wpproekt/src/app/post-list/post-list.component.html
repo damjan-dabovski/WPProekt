@@ -1,4 +1,4 @@
-<p>post-list works!</p>
+<a style="background-color: rgb(160, 192, 112); color: white; padding: 3px" routerLink="/posts/create">Add new</a>
 <div *ngFor = "let post of posts">
     <h1><a [routerLink]="['/posts', post.id]">{{post.title}}</a></h1>
     <p style="color:#888888">by {{post.authorName}} on {{post.dateModified}}</p>

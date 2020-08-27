@@ -117,8 +117,13 @@
               "devServerTarget": "wpproekt:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "wpproekt"
 }

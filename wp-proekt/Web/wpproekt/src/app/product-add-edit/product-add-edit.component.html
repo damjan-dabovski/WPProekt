@@ -1,0 +1,12 @@
+<div>
+    <label for="title">Name:</label>
+    <input type="text" name="name" placeholder="Name" [(ngModel)] = "productName">
+    <p>{{productName}}</p>
+    <label for="content">Description:</label>
+    <textarea rows="8" cols="50" name="description" placeholder="Description" [(ngModel)] = "productDescription"></textarea>
+    <p>{{productDescription}}</p>
+    <input type="number" name="price" [(ngModel)] = "productPrice">
+    <label for="fileSelect">Choose an image to upload:</label>
+    <input (change)="fileAttached($event.target.files)" id="fileSelect" name="fileSelect" type="file">
+    <button (click) = "submitProduct()">Submit</button>
+</div>

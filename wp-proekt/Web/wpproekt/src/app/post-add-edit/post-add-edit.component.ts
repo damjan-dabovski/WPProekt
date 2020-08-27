@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Post } from '../models/Post';
 import { ActivatedRoute } from '@angular/router';
+import { Tag } from '../models/Tag';
 
 @Component({
   selector: 'app-post-add-edit',
@@ -15,6 +16,9 @@ export class PostAddEditComponent implements OnInit {
   postId: number;
   post: Post;
   bEditEnabled: boolean = false;
+
+  tags: Tag[]
+  selectedTags: boolean[] = []
 
   @Input()
   postTitle: string;
@@ -39,6 +43,14 @@ export class PostAddEditComponent implements OnInit {
           this.isDraft = this.post.isDraft
         })
       }
+
+      this.service.getTags().subscribe(data => {
+        this.tags = data
+        console.log(this.tags)
+        for(let tag of this.tags){
+          this.selectedTags.push(false)
+        }
+      })
     })
   }
 
@@ -61,6 +73,15 @@ export class PostAddEditComponent implements OnInit {
         isDraft: false
       })
     }
+  }
+
+  getColor(tagColor: string){
+    return "#" + tagColor
+  }
+
+  toggleTagSelect(i: number){
+    this.selectedTags[i] = !this.selectedTags[i]
+    console.log(this.selectedTags)
   }
 
 }

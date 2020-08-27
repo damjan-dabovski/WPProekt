@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "wpproekt-aa73e": {
+      "hosting": {
+        "wpproekt": [
+          "wpproekt-aa73e"
+        ]
+      }
+    }
+  }
+}

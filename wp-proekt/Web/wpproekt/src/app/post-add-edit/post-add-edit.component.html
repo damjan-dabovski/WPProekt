@@ -8,5 +8,8 @@
     <label for="preview">Preview HTML?</label>
     <input type="checkbox" name="preview" [(ngModel)] = "bPreviewEnabled">
     <div *ngIf="bPreviewEnabled" [innerHtml] = "postContent | noSanitize"></div>
+    <div>
+        <span *ngFor="let tag of tags; index as i" (click)="toggleTagSelect(i)" [style.backgroundColor]="getColor(tag.colorCode)">{{tag.name}}</span>
+    </div>
     <button (click) = "submitPost()">Submit</button>
 </div>
